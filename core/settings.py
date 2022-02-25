@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     # USER_APPLICATIONS
     'src.accounts',
     'src.website',
+    'src.company',
 
 ]
 
