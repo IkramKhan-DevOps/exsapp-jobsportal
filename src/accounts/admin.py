@@ -42,12 +42,10 @@ class UserCustomAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         ('Personal info', {'fields': (
-            'profile_image', 'first_name', 'last_name', 'email', 'phone_number', 'gender', 'address', 'about')}),
-        ('Statistics', {
-            'fields': ('donations_total', 'donations_amount', 'donations_projects'),
-        }),
+            'profile_image', 'first_name', 'last_name', 'email', 'phone_number', 'gender', 'address', 'about')}
+        ),
         ('Access Level', {
-            'fields': ('is_active', 'is_staff', 'is_superuser', 'is_customer'),
+            'fields': ('is_active', 'is_staff', 'is_superuser', 'is_customer', 'is_company', 'is_completed'),
         }),
         ('Permissions', {'fields': ('groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),

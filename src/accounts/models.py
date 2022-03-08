@@ -9,7 +9,10 @@ class User(AbstractUser):
         ('o', 'Other'),
     )
 
-    is_customer = models.BooleanField(default=True, help_text="This account belongs to customer")
+    is_customer = models.BooleanField(default=False, help_text="This account belongs to customer")
+    is_company = models.BooleanField(default=False, help_text="This account belongs to Company")
+    is_completed = models.BooleanField(default=False, help_text="Is user fully fully identified to access application")
+
     profile_image = models.ImageField(
         null=True, blank=True,
         upload_to='images/profiles/',
@@ -29,3 +32,5 @@ class User(AbstractUser):
     def delete(self, *args, **kwargs):
         self.profile_image.delete(save=True)
         super(User, self).delete(*args, **kwargs)
+
+
