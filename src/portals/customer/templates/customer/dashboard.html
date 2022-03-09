@@ -1,0 +1,82 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block base_title %} {{ request.user }} {% endblock %}
+{% block base_links %}{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="card mini-stats-wid">
+                <div class="card-body">
+                    <div class="media">
+                        <div class="mr-3 align-self-center">
+                            <i class="bx bx-user-check h2 text-primary mb-0"></i>
+                        </div>
+                        <div class="media-body">
+                            <p class="text-muted mb-2">Total Jobs</p>
+                            <h5 class="mb-0">
+                                00
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card mini-stats-wid">
+                <div class="card-body">
+                    <div class="media">
+                        <div class="mr-3 align-self-center">
+                            <i class="bx bx-import h2 text-success mb-0"></i>
+                        </div>
+                        <div class="media-body">
+                            <p class="text-muted mb-2">Opened</p>
+                            <h5 class="mb-0">
+                                00
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card mini-stats-wid">
+                <div class="card-body">
+                    <div class="media">
+                        <div class="mr-3 align-self-center">
+                            <i class="bx bx-export h2 text-danger mb-0"></i>
+                        </div>
+                        <div class="media-body">
+                            <p class="text-muted mb-2">Closed</p>
+                            <h5 class="mb-0">
+                                00
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card mini-stats-wid">
+                <div class="card-body">
+                    <div class="media">
+                        <div class="mr-3 align-self-center">
+                            <i class="bx bxl-telegram h2 text-primary mb-0"></i>
+                        </div>
+                        <div class="media-body">
+                            <p class="text-muted mb-2">-</p>
+                            <h5 class="mb-0">
+                                00
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+

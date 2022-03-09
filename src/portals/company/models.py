@@ -74,8 +74,8 @@ class Candidate(models.Model):
         ('pen', 'Pending'),
         ('app', 'Applied'),
     )
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, blank=True)
     status = models.CharField(max_length=3, choices=STATUS_CHOICE, default='app')
     cv = models.FileField(upload_to='company/candidates/files/')
     created_on = models.DateTimeField(auto_now_add=True)

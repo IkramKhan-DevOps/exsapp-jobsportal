@@ -14,10 +14,13 @@ class CrossAuthView(View):
         if not request.user.is_completed:
             return redirect('accounts:identification-check')
 
-        if request.user.is_company:
-            return redirect('/c/')
+        if request.user.is_superuser:
+            return redirect('/admin/')
 
-        return redirect('/admin/')
+        if request.user.is_company:
+            return redirect('company:dashboard')
+        else:
+            return redirect('customer:dashboard')
 
 
 @method_decorator(login_required, name='dispatch')
