@@ -24,13 +24,12 @@
                             <table class="table table-centered table-nowrap table-hover">
                                 <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">ID</th>
                                     <th scope="col">Title</th>
-                                    <th scope="col">Category</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Created On</th>
                                     <th scope="col">Likes</th>
                                     <th scope="col">Candidates</th>
+                                    <th scope="col">Open/Close</th>
                                     <th scope="col">Action</th>
                                 </tr>
                                 </thead>
@@ -38,13 +37,10 @@
                                 {% for object in object_list %}
                                     <tr>
                                         <td>
-                                            {{ object.pk }}
-                                        </td>
-                                        <td>
-                                            <b><a href="#">{{ object.title }}</a></b>
-                                        </td>
-                                        <td>
-                                            {{ object.category }}
+                                            <p class="mb-0">
+                                                <b><a href="#">{{ object.title }}</a></b>
+                                            </p>
+                                            <p class="mb-0 small">{{ object.category }}</p>
                                         </td>
                                         <td>
                                             {% if object.status == 'o' %}
@@ -59,17 +55,29 @@
                                         </td>
                                         <td>{{ object.created_on }}</td>
                                         <td>
-                                            <a href="{% url 'company:job-add' %}"><b><i class="fa fa-thumbs-up"></i> {{ object.likes.count }}</b></a>
+                                            <a href="{% url 'company:job-add' %}"><b><i class="fa fa-thumbs-up"></i>
+                                                View ({{ object.likes.count }})</b></a>
                                         </td>
                                         <td>
-                                            <a href="{% url 'company:candidate-list' object.pk %}"><b><i class="fa fa-users"></i> {{ object.candidates.count }}</b></a>
+                                            <a href="{% url 'company:candidate-list' object.pk %}"><b><i
+                                                    class="fa fa-users"></i> View
+                                                ({{ object.candidates.count }})</b></a>
+                                        </td>
+                                        <td>
+
+                                                {% if object.status == 'o' %}
+                                                    <a href="{% url 'company:job-status' object.pk %}" class="btn btn-sm btn-danger">Close Job</a>
+                                                {% else %}
+                                                    <a href="{% url 'company:job-status' object.pk %}" class="btn btn-sm btn-success">Open Job</a>
+                                                {% endif %}
+                                            </a>
                                         </td>
                                         <td>
                                             <a href="{% url 'company:job-update' object.pk %}">
-                                                <b><i class="fa fa-edit"></i></b>
+                                                <b><i class="fa fa-edit"></i> </b>
                                             </a>
                                             <a href="{% url 'company:job-delete' object.pk %}" class="text-danger">
-                                                <b><i class="fa fa-trash"></i></b>
+                                                <b><i class="fa fa-trash"></i> </b>
                                             </a>
                                         </td>
                                     </tr>

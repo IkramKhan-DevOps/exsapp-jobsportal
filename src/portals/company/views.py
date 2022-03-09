@@ -75,6 +75,23 @@ class CandidateListView(ListView):
         return Candidate.objects.filter(job=self.kwargs['pk'])
 
 
+class JobLikeListView(DetailView):
+    model = Job
+
+    def get_object(self, queryset=None):
+        job = get_object_or_404(
+            Job.objects.filter(
+                company__user=self.request.user
+            ), pk=self.kwargs['pk']
+        )
+        return job
+
+    def get_context_data(self, **kwargs):
+        context = super(JobLikeListView, self).get_context_data(**kwargs)
+        context['likes'] = self.get_object().likes.all()
+        return context
+
+
 class CandidateDetailView(DetailView):
     model = Candidate
 
@@ -98,3 +115,17 @@ class CandidateStatusUpdate(View):
         messages.success(request, 'Candidate Status changed successfully.')
 
         return redirect("company:candidate-detail", job, pk)
+
+
+class JobStatusUpdate(View):
+
+    def get(self, request, pk, *args, **kwargs):
+        job = get_object_or_404(Job.objects.filter(company__user=self.request.user), pk=pk)
+
+        if job.status == 'o':
+            job.status = 'c'
+        else:
+            job.status = 'o'
+        job.save()
+        messages.success(request, 'Job Status changed successfully.')
+        return redirect("company:job-list")
