@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-
 class User(AbstractUser):
     GENDER_CHOICE = (
         ('m', 'Male'),
@@ -32,5 +31,8 @@ class User(AbstractUser):
     def delete(self, *args, **kwargs):
         self.profile_image.delete(save=True)
         super(User, self).delete(*args, **kwargs)
+
+
+
 
 

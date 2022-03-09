@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.views import View
 from src.accounts.forms import UserProfileForm
+from src.portals.company.models import Company
 
 
 @method_decorator(login_required, name='dispatch')
@@ -64,6 +65,8 @@ class IdentificationCheckView(View):
                     user.is_customer = True
                 user.is_completed = True
                 user.save()
+                if user_type == '1':
+                    Company.objects.create(user=user)
                 return redirect('accounts:cross-auth-view')
             else:
                 messages.error(request, "Please provide correct user type")
