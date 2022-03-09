@@ -1,7 +1,9 @@
 {% extends 'website/base.html' %}
 {% load static %}
+{% load custom_tags %}
 
 {% block base_content %}
+
     <!-- hero section start -->
     <section class="section hero-section bg-ico-hero" id="home">
         <div class="bg-overlay bg-primary"></div>
@@ -9,17 +11,9 @@
             <div class="row align-items-center">
                 <div class="col-12">
                     <div class="text-white-50 text-center">
-                        <h1 class="text-white font-weight-semibold mb-3 hero-title">
-                            Online Jobs Portal System
+                        <h1 class="text-white font-weight-semibold mb-0 hero-title">
+                            Find a Job <i class="fa fa-briefcase"></i>
                         </h1>
-                        <blockquote class="blockquote">
-                            <p>
-                                Offer companies to signup and post jobs, moreover user can signup and post their cv's to
-                                open jobs to get the job, valuable platform to provide jobs and to get jobs.
-                            </p>
-                            <footer class="blockquote-footer text-white">Exarth <cite
-                                    title="Source Title">(says)</cite></footer>
-                        </blockquote>
                     </div>
                 </div>
             </div>
@@ -28,139 +22,140 @@
         <!-- end container -->
     </section>
 
-    <section class="section" id="projects">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="text-center">
-                        <div class="small-title">Our Mission</div>
-                        <h2 class="mb-0"><i class="fa fa-cog fa fa-spin"></i> Be the reason of someone to smile</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <section class="section bg-white" id="roadmap">
         <div class="container">
+
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="text-center mb-5">
-                        <div class="small-title">Timeline</div>
-                        <h4>Development Road map</h4>
-                    </div>
+
+                {# JOBS LIST #}
+                <div class="col-8">
+
+                    {% if object_list %}
+                        {% for object in object_list %}
+
+                            <div class="card border">
+                                <div class="card-body border-bottom">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="card-title mb-0">{{ object.title }}</p>
+                                            <p class="mb-0"><a href="#">{{ object.company.name }}</a></p>
+                                        </div>
+                                        <div class="col text-right">
+                                            <p class="mb-0 card-title">{{ object.category.name }}</p>
+                                            <p class="mb-0 card-title-desc text-success"><b>OPEN</b></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    {{ object.description }}
+                                    <p class="text-secondary mb-0">{{ object.created_on }}</p>
+                                </div>
+                                <div class="card-body border-top">
+                                    <div class="row text-center">
+                                        <div class="col border-right">
+                                            <h5 class="mb-0">
+                                                <a href="#"><i class="fa fa-thumbs-up"></i> Like</a>
+                                            </h5>
+                                        </div>
+                                        <div class="col">
+                                            <h5 class="mb-0">
+                                                <a href="#"><i class="fa fa-clipboard-check"></i> Apply</a>
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-danger">
+                            <b>
+                                <i class="fa fa-exclamation-circle"></i>
+                                No open jobs available right now
+                            </b>
+                        </p>
+                    {% endif %}
+
                 </div>
-            </div>
-            <!-- end row -->
 
-            <div class="row mt-4">
-                <div class="col-lg-12">
-                    <div class="hori-timeline">
-                        <div class="owl-carousel owl-theme events navs-carousel" id="timeline-carousel">
-
-                            <div class="item event-list">
-                                <div>
-                                    <a href="#">
-                                        <div class="event-date">
-                                            <div class="mb-1"><i
-                                                    class="bx bx-calendar"></i> 15th February, 2022
-                                            </div>
-                                            <h5 class="mb-4">10% Project</h5>
-
-                                        </div>
-                                        <div class="event-down-icon">
-                                            <i class="bx bx-down-arrow-circle h1 text-primary down-arrow-icon"></i>
-                                        </div>
-
-                                        <div class="mt-3 px-3">
-                                            <p class="text-muted">
-                                                Project Idea, Documentation, Presentations, Discussion, research and
-                                                Understanding
-                                            </p>
-                                        </div>
-                                    </a>
-
-                                </div>
+                {# SEARCH #}
+                {% if job_list %}
+                    <div class="col-4">
+                        <div class="card border">
+                            <div class="card-body border-bottom">
+                                <p class="mb-0 card-title">Search</p>
+                                <p class="mb-0 card-title-desc">Filters for advanced search</p>
                             </div>
-                            <div class="item event-list">
-                                <div>
-                                    <a href="#">
-                                        <div class="event-date">
-                                            <div class="mb-1"><i
-                                                    class="bx bx-calendar"></i> 6th March, 2022
-                                            </div>
-                                            <h5 class="mb-4">30% Project</h5>
-
+                            <div class="card-body">
+                                <form method="get">
+                                    <div class="">
+                                        {{ filter_form }}
+                                        <div class="mt-2">
+                                            <button class="btn btn-primary" type="submit">
+                                                <i class="fa fa-search"></i> Search
+                                            </button>
+                                            <a href="#" class="btn btn-danger" type="submit">
+                                                <i class="fa fa-brush"></i> Clean
+                                            </a>
                                         </div>
-                                        <div class="event-down-icon">
-                                            <i class="bx bx-down-arrow-circle h1 text-primary down-arrow-icon"></i>
-                                        </div>
-
-                                        <div class="mt-3 px-3">
-                                            <p class="text-muted">
-                                                Interface, Prototype, Database Root Access Portal
-                                                (Developers) and Auth System.
-                                            </p>
-                                        </div>
-                                    </a>
-
-                                </div>
+                                    </div>
+                                </form>
                             </div>
-                            <div class="item event-list">
-                                <div>
-                                    <a href="#">
-                                        <div class="event-date">
-                                            <div class="mb-1"><i
-                                                    class="bx bx-calendar"></i> 1st April, 2022
-                                            </div>
-                                            <h5 class="mb-4">60% Project</h5>
-
-                                        </div>
-                                        <div class="event-down-icon">
-                                            <i class="bx bx-down-arrow-circle h1 text-primary down-arrow-icon"></i>
-                                        </div>
-
-                                        <div class="mt-3 px-3">
-                                            <p class="text-muted">
-                                                Access Portal Redesign, Customer portal with all its features and
-                                                Changes required
-                                            </p>
-                                        </div>
-                                    </a>
-
-                                </div>
-                            </div>
-                            <div class="item event-list">
-                                <div>
-                                    <a href="#">
-                                        <div class="event-date">
-                                            <div class="mb-1"><i
-                                                    class="bx bx-calendar"></i> 1st June, 2022
-                                            </div>
-                                            <h5 class="mb-4">100% Project</h5>
-
-                                        </div>
-                                        <div class="event-down-icon">
-                                            <i class="bx bx-down-arrow-circle h1 text-primary down-arrow-icon"></i>
-                                        </div>
-
-                                        <div class="mt-3 px-3">
-                                            <p class="text-muted">
-                                                Root Access Portal, customer Portal, Company Portal and Application
-                                                Testing and Deployment
-                                            </p>
-                                        </div>
-                                    </a>
-
-                                </div>
-                            </div>
-
                         </div>
                     </div>
+                {% endif %}
 
-                </div>
             </div>
+
+            {% if object_list %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mt-4">
+                            <ul class="pagination">
+                                {% if object_list.has_previous %}
+                                    <li>
+                            <span>
+                                <a href="{% relative_url object_list.previous_page_number 'page' request.GET.urlencode %}">
+                                    Previous
+                                </a>
+                            </span>
+                                    </li>
+                                {% endif %}
+                                <li class="">
+                                    <span>Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.</span>
+                                </li>
+                                {% if object_list.has_next %}
+                                    <li>
+                            <span>
+                                <a href="{% relative_url object_list.next_page_number 'page' request.GET.urlencode %}">
+                                    Next
+                                </a>
+                            </span>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+
         </div>
     </section>
 
+{% endblock %}
+
+
+{% block base_external_js %}
+    <script>
+        $(document).ready(function () {
+
+            $('label').hide();
+            $('input').addClass('form-control mb-2');
+            $('select').addClass('form-control mb-2');
+
+        });
+    </script>
 {% endblock %}

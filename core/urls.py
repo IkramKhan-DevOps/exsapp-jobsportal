@@ -11,7 +11,8 @@ urlpatterns = [
 
     # PORTALS ---------------------------------------------------------- #
     path('', include('src.website.urls', namespace='website')),
-    path('c/', include('src.portals.customer.urls', namespace='customer')),
+    path('', include('src.portals.customer.urls', namespace='customer')),
+    path('c/', include('src.portals.company.urls', namespace='company')),
 ]
 
 if settings.DEBUG:

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'src.accounts',
     'src.website',
     'src.portals.company',
+    'src.portals.customer',
 
 ]
 

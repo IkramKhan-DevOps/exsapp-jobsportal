@@ -52,7 +52,7 @@ class Job(models.Model):
     title = models.CharField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.TextField()
-    detailed_description = RichTextField()
+    detailed_description = RichTextField(null=True, blank=True)
     company = models.ForeignKey('Company', related_name='job_provider', on_delete=models.CASCADE)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
