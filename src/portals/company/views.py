@@ -1,9 +1,11 @@
+from django.contrib import messages
 from django.db import models
-from django.shortcuts import get_object_or_404
-from django.views.generic import UpdateView, CreateView, DeleteView, ListView, TemplateView
-
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views import View
+from django.views.generic import UpdateView, CreateView, DeleteView, ListView, TemplateView, DetailView
 from src.portals.company.bll import get_user_company_bll
-from .models import Job, Category, Company
+from .models import Job, Category, Company, Candidate
 
 
 class DashboardView(TemplateView):
@@ -17,6 +19,9 @@ class CompanyUpdateView(UpdateView):
         'business_type', 'contact_number',
         'contact_email', 'contact_address'
     ]
+
+    def get_success_url(self):
+        return reverse_lazy('company:company-update')
 
     def get_object(self, queryset=None):
         return get_user_company_bll(self.request.user)
@@ -32,7 +37,7 @@ class JobListView(ListView):
 class JobCreateView(CreateView):
     model = Job
     fields = ['title', 'category', 'description']
-    success_url = ''
+    success_url = reverse_lazy('company:job-list')
 
     def form_valid(self, form):
         form.instance.company = get_user_company_bll(self.request.user)
@@ -42,7 +47,7 @@ class JobCreateView(CreateView):
 class JobUpdateView(UpdateView):
     model = Job
     fields = ['title', 'category', 'description', 'status']
-    success_url = ''
+    success_url = reverse_lazy('company:job-list')
 
     def get_object(self, queryset=None):
         return get_object_or_404(
@@ -54,7 +59,7 @@ class JobUpdateView(UpdateView):
 
 class JobDeleteView(DeleteView):
     model = Job
-    success_url = ''
+    success_url = reverse_lazy('company:job-list')
 
     def get_object(self, queryset=None):
         return get_object_or_404(
@@ -63,3 +68,33 @@ class JobDeleteView(DeleteView):
             ), pk=self.kwargs['pk']
         )
 
+
+class CandidateListView(ListView):
+
+    def get_queryset(self):
+        return Candidate.objects.filter(job=self.kwargs['pk'])
+
+
+class CandidateDetailView(DetailView):
+    model = Candidate
+
+    def get_object(self, queryset=None):
+        job = get_object_or_404(Job.objects.filter(company__user=self.request.user), pk=self.kwargs['job'])
+        return get_object_or_404(Candidate.objects.filter(job=job), pk=self.kwargs['pk'])
+
+
+class CandidateStatusUpdate(View):
+
+    def get(self, request, job, pk, action, *args, **kwargs):
+        job_ = get_object_or_404(Job.objects.filter(company__user=self.request.user), pk=job)
+        candidate_ = get_object_or_404(Candidate.objects.filter(job=job_), pk=pk)
+
+        if action not in ['pen', 'app', 'acc']:
+            messages.error(request, 'Wrong request parameters')
+            return redirect('company:candidate-list', job)
+
+        candidate_.status = action
+        candidate_.save()
+        messages.success(request, 'Candidate Status changed successfully.')
+
+        return redirect("company:candidate-detail", job, pk)

@@ -1,16 +1,18 @@
 from django.urls import path
 from .views import (
-    JobUpdateView, JobListView, JobCreateView, JobDeleteView,
-    DashboardView, CompanyUpdateView
+    JobUpdateView, JobListView, JobCreateView, JobDeleteView, CandidateListView,
+    DashboardView, CompanyUpdateView, CandidateDetailView, CandidateStatusUpdate
 )
-
 
 app_name = 'company'
 urlpatterns = [
-    path('', CompanyUpdateView.as_view(), 'company-update'),
-    path('company/profile/', CompanyUpdateView.as_view(), 'company-update'),
-    path('job/', JobListView.as_view(), 'job-list'),
-    path('job/add/', JobCreateView.as_view(), 'job-add'),
-    path('job/<int:pk>/change/', JobUpdateView.as_view(), 'job-update'),
-    path('job/<int:pk>/delete/', JobDeleteView.as_view(), 'job-delete'),
+    path('', DashboardView.as_view(), name='dashboard'),
+    path('company/profile/', CompanyUpdateView.as_view(), name='company-update'),
+    path('job/', JobListView.as_view(), name='job-list'),
+    path('job/add/', JobCreateView.as_view(), name='job-add'),
+    path('job/<int:pk>/change/', JobUpdateView.as_view(), name='job-update'),
+    path('job/<int:pk>/delete/', JobDeleteView.as_view(), name='job-delete'),
+    path('job/<int:pk>/candidates/', CandidateListView.as_view(), name='candidate-list'),
+    path('job/<int:job>/candidate/<int:pk>/', CandidateDetailView.as_view(), name='candidate-detail'),
+    path('job/<int:job>/candidate/<int:pk>/action/<str:action>/', CandidateStatusUpdate.as_view(), name='candidate-status-update'),
 ]

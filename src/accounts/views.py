@@ -12,8 +12,10 @@ class CrossAuthView(View):
 
     def get(self, request):
         if not request.user.is_completed:
-            print("not complete")
             return redirect('accounts:identification-check')
+
+        if request.user.is_company:
+            return redirect('/c/')
 
         return redirect('/admin/')
 

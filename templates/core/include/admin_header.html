@@ -1,24 +1,21 @@
 {% load static %}
 
 
-{#DASHBOARD#}
 <li class="nav-item">
-    <a class="nav-link dropdown-toggle arrow-none" href="{% url 'admins:dashboard' %}">
-        <i class="bx bx-home-circle mr-2"></i>Admin Dashboard
+    <a class="nav-link" href="{% url 'company:dashboard' %}">
+        <i class="bx bx-sitemap mr-2"></i>Dashboard
     </a>
 </li>
 
-{% if request.user.is_superuser %}
-    <li class="nav-item">
-        <a class="nav-link" href="/admin/">
-            <i class="bx bx-sitemap mr-2"></i>Root Access
-        </a>
-    </li>
-{% endif %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'company:company-update' %}">
+        <i class="bx bx-globe mr-2"></i>Company
+    </a>
+</li>
 
 <li class="nav-item">
-    <a class="nav-link" href="/">
-        <i class="bx bx-globe mr-2"></i>Website
+    <a class="nav-link" href="{% url 'company:job-list' %}">
+        <i class="bx bx-briefcase mr-2"></i>Job
     </a>
 </li>
 

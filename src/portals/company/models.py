@@ -1,6 +1,5 @@
 from ckeditor.fields import RichTextField
 from django.db import models
-
 from src.accounts.models import User
 
 
@@ -58,7 +57,7 @@ class Job(models.Model):
     candidates = models.ManyToManyField(User, related_name='candidates', through='Candidate')
     status = models.CharField(max_length=1, choices=STATUS_CHOICE, default='o')
 
-    is_active = models.BooleanField()
+    is_active = models.BooleanField(default=True)
     created_on = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     class Meta:
@@ -71,13 +70,13 @@ class Job(models.Model):
 # CANDIDATE
 class Candidate(models.Model):
     STATUS_CHOICE = (
-        ('a', 'Accepted'),
-        ('p', 'Pending'),
-        ('c', 'Cancelled'),
+        ('acc', 'Accepted'),
+        ('pen', 'Pending'),
+        ('app', 'Applied'),
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
-    status = models.CharField(max_length=1, choices=STATUS_CHOICE)
+    status = models.CharField(max_length=3, choices=STATUS_CHOICE, default='app')
     cv = models.FileField(upload_to='company/candidates/files/')
     created_on = models.DateTimeField(auto_now_add=True)
 
