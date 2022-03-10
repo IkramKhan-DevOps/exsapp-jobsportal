@@ -11,6 +11,17 @@ class HomeView(ListView):
     model = Job
 
     def get_context_data(self, **kwargs):
+        jobs_candidate_user = Job.objects.filter(candidate__user=self.request.user).values('pk')
+        jobs_liked_by_user = Job.objects.filter(likes=self.request.user)
+
+        # LIST ALL ACTIVE JOBS
+
+        # JOBS USER NOT ENROLLED
+
+        # GET LIKED JOBS ID
+
+        # GET ENROLLED JOBS IDS
+
         context = super(HomeView, self).get_context_data(**kwargs)
         filter_object = JobFilter(self.request.GET, queryset=Job.objects.all())
         context['filter_form'] = filter_object.form

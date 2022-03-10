@@ -11,6 +11,15 @@ from .models import Job, Category, Company, Candidate
 class DashboardView(TemplateView):
     template_name = 'company/dashboard.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(DashboardView, self).get_context_data(**kwargs)
+        jobs = Job.objects.filter(company__user=self.request.user)
+        context['jobs'] = jobs
+        context['jobs_all_count'] = jobs.count()
+        context['jobs_open_count'] = jobs.filter(status='o').count()
+        context['jobs_close_count'] = jobs.filter(status='c').count()
+        return context
+
 
 class CompanyUpdateView(UpdateView):
     model = Company
