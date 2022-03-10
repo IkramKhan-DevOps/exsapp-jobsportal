@@ -52,7 +52,11 @@
                                     <div class="row text-center">
                                         <div class="col border-right">
                                             <h5 class="mb-0">
-                                                <a href="{% url 'customer:job-like' object.pk %}"><i class="fa fa-thumbs-up"></i> Like</a>
+                                                {% if object.pk in like_ids %}
+                                                    <a href="{% url 'customer:job-like' object.pk %}" class="text-danger"><i class="fa fa-thumbs-down text-danger"></i> Dislike</a>
+                                                {% else %}
+                                                    <a href="{% url 'customer:job-like' object.pk %}"><i class="fa fa-thumbs-up text-primary"></i> Like</a>
+                                                {% endif %}
                                             </h5>
                                         </div>
                                         <div class="col">

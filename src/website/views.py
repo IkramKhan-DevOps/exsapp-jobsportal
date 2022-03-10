@@ -12,25 +12,23 @@ class HomeView(ListView):
 
     def get_context_data(self, **kwargs):
         jobs_candidate_user = Job.objects.filter(candidate__user=self.request.user).values('pk')
-        jobs_liked_by_user = Job.objects.filter(likes=self.request.user)
+        jobs_liked_by_user = Job.objects.filter(likes=self.request.user).values('pk')
 
-        # LIST ALL ACTIVE JOBS
-
-        # JOBS USER NOT ENROLLED
-
-        # GET LIKED JOBS ID
-
-        # GET ENROLLED JOBS IDS
+        jobs = Job.objects.filter(status='o')
+        jobs = jobs.exclude(pk__in=jobs_candidate_user)
 
         context = super(HomeView, self).get_context_data(**kwargs)
-        filter_object = JobFilter(self.request.GET, queryset=Job.objects.all())
+        filter_object = JobFilter(self.request.GET, queryset=jobs)
         context['filter_form'] = filter_object.form
 
         paginator = Paginator(filter_object.qs, 50)
         page_number = self.request.GET.get('page')
         page_object = paginator.get_page(page_number)
 
+        llist = [x['pk'] for x in jobs_liked_by_user]
+
         context['object_list'] = page_object
+        context['like_ids'] = llist
         return context
 
 

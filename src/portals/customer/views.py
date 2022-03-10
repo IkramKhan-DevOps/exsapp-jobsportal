@@ -6,6 +6,8 @@ from django.views.generic import (
     TemplateView, CreateView, DetailView, ListView,
     UpdateView, DeleteView
 )
+
+from src.accounts.models import User
 from src.portals.company.models import Candidate, Job
 
 
@@ -69,12 +71,13 @@ class CandidateLikeView(View):
 
     def get(self, request, pk):
         job = get_object_or_404(Job.objects.all(), pk=pk)
+        if not Job.objects.filter(pk=job.pk, likes=request.user):
+            print("Liked this post successfully")
+            job.likes.add(request.user)
+        else:
+            print("disliked this post successfully")
+            job.likes.remove(request.user)
 
-        if Job.objects.filter(likes=request.user):
-            messages.warning(request, "You have already liked this post")
-            return redirect('website:home')
-
-        job.likes.add(request.user)
-        # job.save()
-        messages.success(request, "Successfully liked")
+        j = job.save()
+        print(j)
         return redirect('website:home')
