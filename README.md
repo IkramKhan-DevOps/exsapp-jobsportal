@@ -52,7 +52,7 @@ These technologies are used in projects to work properly:
 - [BOOTSTRAPS] - great UI boilerplate for modern web apps
 - [JQUERRY] - more easy and short js implementation
 - [PYTHON] - for backend
-- [DJANGO] - web framework
+- [DJANGO] - modern web framework for perfecionists
 
 ## Installation
 - Install Python 3.8 from https://www.python.org/downloads/release/python-380/
