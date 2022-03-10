@@ -4,7 +4,6 @@
 
 {% block base_content %}
 
-    <!-- hero section start -->
     <section class="section hero-section bg-ico-hero" id="home">
         <div class="bg-overlay bg-primary"></div>
         <div class="container">
@@ -17,9 +16,7 @@
                     </div>
                 </div>
             </div>
-            <!-- end row -->
         </div>
-        <!-- end container -->
     </section>
 
 
@@ -55,12 +52,12 @@
                                     <div class="row text-center">
                                         <div class="col border-right">
                                             <h5 class="mb-0">
-                                                <a href="#"><i class="fa fa-thumbs-up"></i> Like</a>
+                                                <a href="{% url 'customer:job-like' object.pk %}"><i class="fa fa-thumbs-up"></i> Like</a>
                                             </h5>
                                         </div>
                                         <div class="col">
                                             <h5 class="mb-0">
-                                                <a href="#"><i class="fa fa-clipboard-check"></i> Apply</a>
+                                                <a href="{% url 'customer:application-apply' object.pk %}"><i class="fa fa-clipboard-check"></i> Apply</a>
                                             </h5>
                                         </div>
                                     </div>

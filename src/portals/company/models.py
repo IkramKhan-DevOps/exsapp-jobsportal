@@ -40,7 +40,6 @@ class Category(models.Model):
 
 # MODEL JOBS
 class Job(models.Model):
-
     STATUS_CHOICE = (
         ('o', 'Open'),
         ('c', 'Close')
@@ -75,9 +74,19 @@ class Candidate(models.Model):
         ('app', 'Applied'),
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
+    bachelor_degree = models.CharField(
+        max_length=255,
+        help_text="Name of Field in which you have passed bachelors - Leave blank if you don't have bachelors degree"
+    )
+    experience = models.PositiveIntegerField(default=0, help_text="Years of working experience")
+    about = models.TextField(
+        null=True, blank=True,
+        help_text='Say something about yourself, your love to hear you, briefly describe yourself, interests etc'
+    )
+    previous_company = models.CharField(max_length=255, null=True, blank=True, help_text="Leave blank if not")
     job = models.ForeignKey(Job, on_delete=models.CASCADE, blank=True)
     status = models.CharField(max_length=3, choices=STATUS_CHOICE, default='app')
-    cv = models.FileField(upload_to='company/candidates/files/')
+    cv = models.FileField(upload_to='company/candidates/files/', blank=True, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
