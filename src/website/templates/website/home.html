@@ -52,7 +52,7 @@
                                     <div class="row text-center">
                                         <div class="col border-right">
                                             <h5 class="mb-0">
-                                                {% if object.pk in like_ids %}
+                                                {% if object.pk in like_ids and request.user.is_authenticated %}
                                                     <a href="{% url 'customer:job-like' object.pk %}" class="text-danger"><i class="fa fa-thumbs-down text-danger"></i> Dislike</a>
                                                 {% else %}
                                                     <a href="{% url 'customer:job-like' object.pk %}"><i class="fa fa-thumbs-up text-primary"></i> Like</a>

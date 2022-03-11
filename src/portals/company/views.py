@@ -1,13 +1,16 @@
 from django.contrib import messages
-from django.db import models
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import UpdateView, CreateView, DeleteView, ListView, TemplateView, DetailView
+
+from src.accounts.decorators import company_required
 from src.portals.company.bll import get_user_company_bll
 from .models import Job, Category, Company, Candidate
 
 
+@method_decorator(company_required, name='dispatch')
 class DashboardView(TemplateView):
     template_name = 'company/dashboard.html'
 
@@ -21,6 +24,7 @@ class DashboardView(TemplateView):
         return context
 
 
+@method_decorator(company_required, name='dispatch')
 class CompanyUpdateView(UpdateView):
     model = Company
     fields = [
@@ -36,6 +40,7 @@ class CompanyUpdateView(UpdateView):
         return get_user_company_bll(self.request.user)
 
 
+@method_decorator(company_required, name='dispatch')
 class JobListView(ListView):
     model = Job
 
@@ -43,6 +48,7 @@ class JobListView(ListView):
         return Job.objects.filter(company__user=self.request.user)
 
 
+@method_decorator(company_required, name='dispatch')
 class JobCreateView(CreateView):
     model = Job
     fields = ['title', 'category', 'description']
@@ -53,6 +59,7 @@ class JobCreateView(CreateView):
         return super(JobCreateView, self).form_valid(form)
 
 
+@method_decorator(company_required, name='dispatch')
 class JobUpdateView(UpdateView):
     model = Job
     fields = ['title', 'category', 'description', 'status']
@@ -66,6 +73,7 @@ class JobUpdateView(UpdateView):
         )
 
 
+@method_decorator(company_required, name='dispatch')
 class JobDeleteView(DeleteView):
     model = Job
     success_url = reverse_lazy('company:job-list')
@@ -78,12 +86,14 @@ class JobDeleteView(DeleteView):
         )
 
 
+@method_decorator(company_required, name='dispatch')
 class CandidateListView(ListView):
 
     def get_queryset(self):
         return Candidate.objects.filter(job=self.kwargs['pk'])
 
 
+@method_decorator(company_required, name='dispatch')
 class JobLikeListView(DetailView):
     model = Job
 
@@ -101,6 +111,7 @@ class JobLikeListView(DetailView):
         return context
 
 
+@method_decorator(company_required, name='dispatch')
 class CandidateDetailView(DetailView):
     model = Candidate
 
@@ -109,6 +120,7 @@ class CandidateDetailView(DetailView):
         return get_object_or_404(Candidate.objects.filter(job=job), pk=self.kwargs['pk'])
 
 
+@method_decorator(company_required, name='dispatch')
 class CandidateStatusUpdate(View):
 
     def get(self, request, job, pk, action, *args, **kwargs):
@@ -126,6 +138,7 @@ class CandidateStatusUpdate(View):
         return redirect("company:candidate-detail", job, pk)
 
 
+@method_decorator(company_required, name='dispatch')
 class JobStatusUpdate(View):
 
     def get(self, request, pk, *args, **kwargs):

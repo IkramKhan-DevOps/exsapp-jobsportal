@@ -1,16 +1,19 @@
 from django.contrib import messages
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import (
     TemplateView, CreateView, DetailView, ListView,
     UpdateView, DeleteView
 )
 
+from src.accounts.decorators import customer_required
 from src.accounts.models import User
 from src.portals.company.models import Candidate, Job
 
 
+@method_decorator(customer_required, name='dispatch')
 class DashboardView(TemplateView):
     template_name = 'customer/dashboard.html'
 
@@ -24,6 +27,7 @@ class DashboardView(TemplateView):
         return context
 
 
+@method_decorator(customer_required, name='dispatch')
 class CandidateListView(ListView):
     template_name = 'customer/candidate_list.html'
 
@@ -31,6 +35,7 @@ class CandidateListView(ListView):
         return Candidate.objects.filter(user=self.request.user)
 
 
+@method_decorator(customer_required, name='dispatch')
 class CandidateCreateView(CreateView):
     template_name = 'customer/candidate_form.html'
     model = Candidate
@@ -51,6 +56,7 @@ class CandidateCreateView(CreateView):
         return super(CandidateCreateView, self).form_valid(form)
 
 
+@method_decorator(customer_required, name='dispatch')
 class CandidateUpdateView(UpdateView):
     template_name = 'customer/candidate_form.html'
     model = Candidate
@@ -61,12 +67,14 @@ class CandidateUpdateView(UpdateView):
         return super(CandidateUpdateView, self).form_valid(form)
 
 
+@method_decorator(customer_required, name='dispatch')
 class CandidateDeleteView(DeleteView):
     template_name = 'customer/candidate_confirm_delete.html'
     model = Candidate
     success_url = reverse_lazy('customer:application-list')
 
 
+@method_decorator(customer_required, name='dispatch')
 class CandidateLikeView(View):
 
     def get(self, request, pk):
