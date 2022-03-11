@@ -7,7 +7,7 @@ from django.views.generic import UpdateView, CreateView, DeleteView, ListView, T
 
 from src.accounts.decorators import company_required
 from src.portals.company.bll import get_user_company_bll
-from .models import Job, Category, Company, Candidate
+from .models import Job, Company, Candidate
 
 
 @method_decorator(company_required, name='dispatch')

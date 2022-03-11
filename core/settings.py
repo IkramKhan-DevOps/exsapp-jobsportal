@@ -19,7 +19,7 @@ GOOGLE_CALLBACK_ADDRESS = "http://127.0.0.1:8000/accounts/google/login/callback/
 
 if SERVER:
     SITE_ID = 2
-    GOOGLE_CALLBACK_ADDRESS = "http://haris97406.pythonanywhere.com/accounts/google/login/callback/"
+    GOOGLE_CALLBACK_ADDRESS = "http://00.pythonanywhere.com/accounts/google/login/callback/"
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = '/accounts/cross-auth/'
